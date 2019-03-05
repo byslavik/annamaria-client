@@ -1,11 +1,25 @@
 {
-  "name": "client",
+  "name": "anna-maria-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "add": "^2.0.6",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5"
+    "react-gate": "^0.1.1",
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "2.1.5",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
+    "redux-modal": "^3.0.1",
+    "redux-saga": "^1.0.1",
+    "styled-components": "^4.1.3",
+    "yarn": "^1.13.0"
   },
   "scripts": {
     "start": "react-scripts start",

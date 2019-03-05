@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Header, Modal, PrivateRoute } from './components'
+import { Primerki, Vidacha, Login } from './pages'
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+const store = configureStore({})
+
+const App = () => 
+  <Provider store={ store }>
+    <Modal />
+    <Router>
+      <div>
+        <Header />
+        <PrivateRoute exact path="/" component={Primerki} />
+        <PrivateRoute exact path="/vidachi" component={Vidacha} />
+        <Route exact path="/login" component={Login} />
       </div>
-    );
-  }
-}
+    </Router>
+  </Provider>
 
 export default App;
