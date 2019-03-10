@@ -1,10 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
@@ -31,9 +28,10 @@ const DialogTitle = ({ onClose, children }) =>
   ) : null}
   </DialogWrapper>
 
-const Modal = ({ action, hideModal, title, actionText, show, Content }) =>
+const Modal = ({ mobile, hideModal, title, show, Content }) =>
   <Dialog
-    maxWidth="md"
+    fullScreen={ mobile }
+    maxWidth="lg"
     onClose={hideModal}
     aria-labelledby="customized-dialog-title"
     open={show}
@@ -41,14 +39,7 @@ const Modal = ({ action, hideModal, title, actionText, show, Content }) =>
     <DialogTitle id="customized-dialog-title" onClose={hideModal}>
       { title }
     </DialogTitle>
-    <MuiDialogContent>
-      <Content />
-    </MuiDialogContent>
-    <MuiDialogActions>
-      <Button onClick={action} color="primary">
-        { actionText }
-      </Button>
-    </MuiDialogActions>
+    <Content />
   </Dialog>
 
 export default Modal

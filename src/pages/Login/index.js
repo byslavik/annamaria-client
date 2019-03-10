@@ -2,12 +2,16 @@ import Login from './Login'
 import { connect } from 'react-redux'
 import { compose, withHandlers } from 'recompose'
 import { reduxForm, formValueSelector } from 'redux-form'
-import validate from '../../helpers/form-validator'
+import validateFn from '../../helpers/form-validator'
 import { loginHandler } from '../../api'
 import setCookie from '../../helpers/set-cookie'
 
 const FORM_NAME = 'Login'
 const selector = formValueSelector(FORM_NAME)
+
+const FIELDS_TO_VALIDATE = ['username', 'password']
+
+const validate = validateFn(FIELDS_TO_VALIDATE)
 
 export default compose(
   reduxForm({

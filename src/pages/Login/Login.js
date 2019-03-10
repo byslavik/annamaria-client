@@ -9,11 +9,11 @@ import Button from '@material-ui/core/Button';
 const renderField = ({
   input,
   label,
-  meta: { error },
+  meta: { error, touched },
   ...props
 }) => <TextField
-  label={ Boolean(error) ? error : label }
-  error={ Boolean(error) }
+  label={ label }
+  error={ Boolean(error) && touched }
   { ...input }
   { ...props }
   />

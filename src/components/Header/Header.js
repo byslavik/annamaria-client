@@ -4,9 +4,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import Tab from '@material-ui/core/Tab';
-import { Link, withRouter } from 'react-router-dom'
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { Link } from 'react-router-dom'
 import LogoImg from './logo.png'
+import { Media } from '../'
 
 const menu = [
   {
@@ -26,19 +32,51 @@ const menu = [
 const LinkTab = props =>
   <Tab component={ Link } {...props} />;
 
-const Header = ({ location: { pathname } }) =>
+const MobileMenu = ({ toggleMenu, targetEl, isMobileMenuOpen = true, mobileMoreAnchorEl = null }) => (
+  <Menu
+    anchorEl={targetEl}
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+    open={isMobileMenuOpen}
+    onClose={toggleMenu}
+  >
+    {
+      menu.map(({ label, to }, index) =>
+        <MenuItem component={ Link } key={ index } to={ to }>
+          <p>{ label }</p>
+        </MenuItem>
+      )
+    }
+    
+  </Menu>
+);
+
+const Header = ({ isFetching, toggleMenu, isMobileMenuOpen, targetEl }) =>
   <Wrapper>
+    { isFetching && <StyledProgress /> }
     <AppBar position="static" color="default">
       <Toolbar>
         <Logo src={ LogoImg } />
         <StyledTypography variant="h6" color="inherit">
           АннаМария
         </StyledTypography>
-        <StyledTabs variant="fullWidth" value={ menu.findIndex(({ to }) => pathname === to) }>
+        <Media.Desktop>
+          <StyledTabs variant="fullWidth" value={ menu.findIndex(({ to }) => window.location.pathname === to) }>
+            {
+              menu.map((item, index) => <LinkTab key={ index } { ...item } />)
+            }
+          </StyledTabs>
+        </Media.Desktop>
+        <Media.Mobile>
+          <Tab component="span" label={ menu[menu.findIndex(({ to }) => window.location.pathname === to)].label } />
+          <IconButton color="inherit" onClick={ toggleMenu } aria-label="Open drawer">
+            <MenuIcon />
+          </IconButton>
           {
-            menu.map((item, index) => <LinkTab key={ index } { ...item } />)
+            isMobileMenuOpen &&
+              <StyledMenu toggleMenu={ toggleMenu } targetEl={ targetEl } />    
           }
-        </StyledTabs>
+        </Media.Mobile>
       </Toolbar>
     </AppBar>
   </Wrapper>
@@ -50,6 +88,16 @@ const StyledTypography = styled(Typography)`
 
 const Wrapper = styled.div`
   flex-grow: 1;
+  position: relative;
+
+  @media print {
+    display: none;
+  }
+`
+
+const StyledMenu = styled(MobileMenu)`
+  top: 30px;
+  right: 0;
 `
 
 const StyledTabs = styled(Tabs)`
@@ -61,4 +109,14 @@ const Logo = styled.img`
   margin-right: 10px;
 `
 
-export default withRouter(Header)
+const StyledProgress = styled(LinearProgress)`
+  && {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+  }
+`
+
+export default Header

@@ -1,10 +1,9 @@
-const validate = values => {
-  const errors = {}
 
-  console.log(values)
+const validate = fieldsToValidate => values => {
+  const errors = {}
   
-  Object.keys(values).forEach(item => values[item].trim() === '' && (errors[item] = 'Это поле не может быть пустым'))
-console.log(errors)
+  fieldsToValidate.forEach(item => !values[item] && (errors[item] = 'Это поле не может быть пустым'))
+
   return errors
 }
 
