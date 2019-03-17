@@ -2,7 +2,7 @@ import qs from 'qs'
 import getCook from '../helpers/get-cook'
 import { addAlert } from '../components/Alerts/actions'
 import { setFetching } from '../actions'
-const mainUrl = 'https://anna-maria-server.herokuapp.com/api'
+const mainUrl = 'http://localhost:8083/api'
 
 const errMsg = 'Что-то пошло не так'
 

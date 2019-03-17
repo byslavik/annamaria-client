@@ -1,13 +1,16 @@
 import React from 'react'
 import Primerki from './Primerki'
 import { connect } from 'react-redux'
-import { compose, withHandlers, lifecycle, withStateHandlers } from 'recompose'
+import { compose, withProps, withHandlers, lifecycle, withStateHandlers } from 'recompose'
 import { show } from 'redux-modal'
-import { MODAL, PRIMERKA } from '../../constant'
+import { MODAL, PRIMERKA, PRIMERKA_DATE } from '../../constant'
 import { AddPrimerka, DetailsModalContent } from '../../components'
 import { setCurrentPage, getItems } from '../../actions' 
+import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
+import getTime from '../../helpers/get-time'
+import { ClientPhone } from '../../components/common'
 
 const mapStateToProps = ({
   date,
@@ -57,6 +60,35 @@ export default compose(
     dblClkHanlder: ({ enableRowFn }) => () => {
       enableRowFn()
     }
+  }),
+  withProps({
+    columns: [
+      {
+        label: 'Время',
+        renderFn: ({ primerkaDate }) => getTime(primerkaDate)
+      },
+      {
+        label: 'Клиент',
+        renderFn: item =>
+          <>
+            <b>{item.clientName}</b>
+            <br/>
+            <ClientPhone>{item.clientPhone}</ClientPhone>
+          </>
+      },
+      {
+        label: 'Номера платьев',
+        renderFn: ({ dressIds }) => dressIds.join(', ')
+      },
+      {
+        label: 'Дата мероприятия',
+        renderFn: ({ eventDate }) => dateFormatter(eventDate)
+      },
+      {
+        label: 'Комментарии',
+        renderFn: ({ comments = '' }) => <p dangerouslySetInnerHTML={{ __html: comments.replace(/(?:\r\n|\r|\n)/g, '<br/>') }} />
+      }
+    ]
   }),
   lifecycle({
     componentDidMount() {

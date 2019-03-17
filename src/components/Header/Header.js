@@ -20,7 +20,7 @@ const menu = [
     to: "/"
   },
   {
-    label: "Выдачи",
+    label: "Бронь",
     to: "/vidachi"
   },
   {

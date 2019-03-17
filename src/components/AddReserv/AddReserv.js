@@ -15,7 +15,8 @@ import {
   RESERV_DATE,
   EVENT_DATE,
   COMMENTS,
-  PRIMERKA_DATE
+  PRIMERKA_DATE,
+  RETURN_DATE
 } from '../../constant'
 import { MaskedInput } from '..'
 import Media from '../Media'
@@ -153,6 +154,17 @@ const AddPrimerka = ({ handleSubmit, initialItem, deleteHandler, addReserv, acti
                       Посмотреть выдачи на {dateFormatter(formValues[RESERV_DATE])}
                   </StyledButton>
               }
+              
+              <Field
+                component={ renderField }
+                id={ RETURN_DATE }
+                name={ RETURN_DATE }
+                label="Предполагаемый возврат"
+                margin="normal"
+                type="datetime-local"
+                InputLabelProps={{
+                  shrink: true,
+                }} />
             </Column>
           </Row>
           <Field

@@ -22,18 +22,15 @@ const TableComponent = ({
   onTimeFieldBlur,
   timeValue,
   hightlightVidacha,
-  timeField = "primerkaDate"
+  mobileCols = 3,
+  columns
 }) =>
 <>
   <Media.Desktop>
     <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Время</TableCell>
-            <TableCell align="left">Клиент</TableCell>
-            <TableCell align="right">Наименование</TableCell>
-            <TableCell align="right">Дата съемки/Мероприятия</TableCell>
-            <StyledCell align="left">Комментарии</StyledCell>
+            { columns.map(({ label }, index) => <TableCell align="left" key={index}>{label}</TableCell>) }
           </TableRow>
         </TableHead>
         <TableBody>
@@ -43,18 +40,16 @@ const TableComponent = ({
               isVidacha={ hightlightVidacha && item.isVidacha }
               isPlaceholder={ item.placeholder }
               onClick={ () => item.placeholder ? openCreateModal(item, true) : openDetailsModal(item) }>
-              <TableCell component="th" scope="row">
-                {item[timeField] && getTime(item[timeField])}
-              </TableCell>
-              <TableCell align="left">
-                <b>{item.clientName}</b>
-                <br/>
-                <ClientPhone>{item.clientPhone}</ClientPhone>
-              </TableCell>
-              <TableCell align="right">{item.dressIds.join(', ')}</TableCell>
-              <TableCell align="right">{item.eventDate && dateFormatter(item.eventDate)}</TableCell>
-              <TableCell align="left" dangerouslySetInnerHTML={ { __html: item.comments.replace(/(?:\r\n|\r|\n)/g, '<br/>') } } />
-            </StyledRow>
+              {
+                columns
+                  .map(({ field, label, renderFn }) =>
+                    <TableCell align="left" key={`${item._id}-${label}`}>
+                      {
+                        renderFn ? renderFn(item) : item[field]
+                      }
+                    </TableCell>)
+              }
+              </StyledRow>
           ))}
           {
             items.length === 0 &&
@@ -93,38 +88,31 @@ const TableComponent = ({
   </Media.Desktop>
   <Media.Mobile>
     <Table>
-    {
-      items.map(item => (
-            <StyledRow
-              key={item._id}
-              isVidacha={ hightlightVidacha && item.isVidacha }
-              isPlaceholder={ item.placeholder }
-              onClick={ () => item.placeholder ? openCreateModal(item, true) : openDetailsModal(item) }>
-              <StyledCell width="10">
-                {item[timeField] && getTime(item[timeField])}
-              </StyledCell>
-              <StyledCell width="55" align="left">
-                <b>{item.clientName}</b>
-                <br/>
-                <ClientPhone>{item.clientPhone}</ClientPhone>
-              </StyledCell>
-              <StyledCell width="35" align="left">{item.dressIds.join(', ')}</StyledCell>
-              {/* <TableCell align="right">{item.eventDate && dateFormatter(item.eventDate)}</TableCell>
-              <TableCell align="left" dangerouslySetInnerHTML={ { __html: item.comments.replace(/(?:\r\n|\r|\n)/g, '<br/>') } } /> */}
-            </StyledRow>
-          ))
-      }
+    
+      {items.map(item => (
+        <StyledRow
+          key={item._id}
+          isVidacha={ hightlightVidacha && item.isVidacha }
+          isPlaceholder={ item.placeholder }
+          onClick={ () => item.placeholder ? openCreateModal(item, true) : openDetailsModal(item) }>
+          {
+            columns
+              .splice(0, mobileCols)
+              .map(({ field, label, renderFn }) =>
+                <StyledCell align="left" key={`${item._id}-${label}`}>
+                  {
+                    renderFn ? renderFn(item) : item[field]
+                  }
+                </StyledCell>)
+          }
+          </StyledRow>
+      ))}
+      
       </Table>
   </Media.Mobile>
 </>
-export default TableComponent
 
-const ClientPhone = styled(Typography)`
-  && {
-    margin-top: 2px;
-    white-space: nowrap;
-  }
-`
+export default TableComponent
 
 const StyledRow = styled(TableRow)`
   ${props => props.isVidacha && css`
