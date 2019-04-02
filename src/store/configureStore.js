@@ -4,6 +4,7 @@ import { reducer as modal } from 'redux-modal'
 import { app } from './appReducer'
 import alerts from '../components/Alerts/reducer'
 import date from '../components/DateSelector/reducer'
+import comment from '../components/CommentWindow/reducer'
 import thunk from 'redux-thunk'
 
 const reducer = combineReducers({
@@ -11,7 +12,8 @@ const reducer = combineReducers({
   form,
   modal,
   alerts,
-  date
+  date,
+  comment
 })
 
 

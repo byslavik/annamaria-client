@@ -1,5 +1,6 @@
 import React from 'react'
 import Vidacha from './Vidacha'
+import qs from 'qs'
 import { connect } from 'react-redux'
 import { compose, withProps, withHandlers, lifecycle, withStateHandlers } from 'recompose'
 import { show } from 'redux-modal'
@@ -9,8 +10,7 @@ import { setCurrentPage, getItems } from '../../actions'
 import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
-import getTime from '../../helpers/get-time'
-import { ClientPhone } from '../../components/common'
+import { ClientPhone, DressList, PriceHolder } from '../../components/common'
 
 const mapStateToProps = ({
   date,
@@ -22,7 +22,7 @@ const mapStateToProps = ({
 const columns = [
   {
     label: 'Время',
-    renderFn: ({ eventDate }) => getTime(eventDate)
+    renderFn: ({ eventDate: { time } = {} }) => time
   },
   {
     label: 'Клиент',
@@ -35,16 +35,25 @@ const columns = [
   },
   {
     label: 'Номера платьев',
-    renderFn: ({ dressIds }) => dressIds.join(', ')
+    renderFn: ({ dressIds }) => {
+      const { dressIds: searchDressIds } = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+      const searchIds = searchDressIds ? searchDressIds.split(',') : []
+
+      return <DressList searchIds={ searchIds } items={ dressIds } />
+    } 
   },
   {
     label: 'Оплата',
     renderFn: ({ prise, prepaid, zalog }) =>
-      <>
-        { prise && <><b>Сумма</b>: { prise } <br/></>}
-        { prepaid && <><b>Предоплата</b>: { prepaid } <br/></>}
-        { zalog && <><b>Залог</b>: { zalog } <br/></>}
-      </>
+      <PriceHolder prise={ prise } prepaid={ prepaid } zalog={ zalog } />
+  },
+  {
+    label: 'Дата выдачи',
+    renderFn: ({ reservDate }) => dateFormatter(reservDate)
+  },
+  {
+    label: 'Дата возврата',
+    renderFn: ({ returnDate }) => dateFormatter(returnDate)
   },
   {
     label: 'Комментарии',
@@ -68,7 +77,10 @@ export default compose(
       const isFilled = value.length === 5
     
       isFilled && addItem({
-        reservDate: new Date(`${date} ${value}`),
+        eventDate: {
+          date,
+          time: value
+        },
         placeholder: true,
         type: currentPage
       }).then(updateItemList)

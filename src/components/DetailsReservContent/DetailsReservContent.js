@@ -6,6 +6,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Media from '../Media'
 import dateFormatter from '../../helpers/date-formatter'
+import { DressList } from '../../components/common'
 
 const DetailsModalContent = ({
   dressIds,
@@ -19,7 +20,7 @@ const DetailsModalContent = ({
   zalog,
   comments,
   editItem,
-  reservItem
+  returnDate
 }) =>
   <MuiDialogContent>
     <Column>
@@ -37,6 +38,10 @@ const DetailsModalContent = ({
               <Typography>{ dateFormatter(reservDate) }</Typography>
             </Row>
             <Row>
+              <BoldText>Дата возврата: </BoldText>
+              <Typography>{ dateFormatter(returnDate) }</Typography>
+            </Row>
+            <Row>
               <BoldText>Клиент: </BoldText>
               <Typography>{ clientName } <b>{ clientPhone }</b></Typography>
             </Row>
@@ -46,7 +51,7 @@ const DetailsModalContent = ({
             </Row>
             <Row>
               <BoldText>Номера платьев: </BoldText>
-              <Typography>{ dressIds.join(', ') }</Typography>
+              <Typography><DressList items={ dressIds } /></Typography>
             </Row>
             <Row>
               <BoldText>Стоимость: </BoldText>

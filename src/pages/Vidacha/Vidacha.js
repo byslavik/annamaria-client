@@ -1,7 +1,7 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper';
 import { TopBar, Table } from '../../components'
-
+import { Button } from '@material-ui/core';
 
 const Vidacha = ({
   openCreateModal,
@@ -10,11 +10,11 @@ const Vidacha = ({
 }) =>
     <Paper>
       <TopBar
-        action={ openCreateModal }
         date={ date }
-        describeText="Показаны брони на"
-        actionBtnText="Добавить бронь" />
-      <Table timeField="reservDate" { ...props } />  
+        describeText="Показаны брони на">
+        <Button onClick={ openCreateModal } color="primary">Добавить бронь</Button>
+      </TopBar>
+      <Table timeField="reservDate" openCreateModal={ openCreateModal } { ...props } />  
     </Paper>
 
 

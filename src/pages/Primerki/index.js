@@ -3,14 +3,13 @@ import Primerki from './Primerki'
 import { connect } from 'react-redux'
 import { compose, withProps, withHandlers, lifecycle, withStateHandlers } from 'recompose'
 import { show } from 'redux-modal'
-import { MODAL, PRIMERKA, PRIMERKA_DATE } from '../../constant'
+import { MODAL, PRIMERKA } from '../../constant'
 import { AddPrimerka, DetailsModalContent } from '../../components'
 import { setCurrentPage, getItems } from '../../actions' 
 import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
-import getTime from '../../helpers/get-time'
-import { ClientPhone } from '../../components/common'
+import { ClientPhone, DressList } from '../../components/common'
 
 const mapStateToProps = ({
   date,
@@ -34,7 +33,10 @@ export default compose(
       const isFilled = value.length === 5
     
       isFilled && addItem({
-        primerkaDate: new Date(`${date} ${value}`),
+        primerkaDate: {
+          date,
+          time: value
+        },
         placeholder: true,
         type: currentPage
       }).then(updateItemList)
@@ -65,20 +67,20 @@ export default compose(
     columns: [
       {
         label: 'Время',
-        renderFn: ({ primerkaDate }) => getTime(primerkaDate)
+        renderFn: ({ primerkaDate: { time } = {} }) => time
       },
       {
         label: 'Клиент',
         renderFn: item =>
-          <>
+          <span>
             <b>{item.clientName}</b>
             <br/>
             <ClientPhone>{item.clientPhone}</ClientPhone>
-          </>
+          </span>
       },
       {
         label: 'Номера платьев',
-        renderFn: ({ dressIds }) => dressIds.join(', ')
+        renderFn: ({ dressIds }) => <DressList items={ dressIds } /> 
       },
       {
         label: 'Дата мероприятия',
@@ -93,7 +95,6 @@ export default compose(
   lifecycle({
     componentDidMount() {
       const { setCurrentPage, getItems, date } = this.props
-
       setCurrentPage(PRIMERKA)
       getItems({ type: PRIMERKA, date })
     }

@@ -18,7 +18,7 @@ import {
   PRIMERKA_DATE,
   RETURN_DATE
 } from '../../constant'
-import { MaskedInput } from '..'
+import { MaskedInput, DateTimeSelector, DressSizeSelector } from '..'
 import Media from '../Media'
 import { Typography } from '@material-ui/core';
 import dateFormatter from '../../helpers/date-field-formatter';
@@ -42,7 +42,7 @@ const renderField = ({
   { ...props }
 />
 
-const AddPrimerka = ({ handleSubmit, initialItem, deleteHandler, addReserv, actionText = 'Бронировать', formValues }) =>
+const AddPrimerka = ({ linedIds, handleSubmit, initialItem = {}, deleteHandler, addReserv, actionText = 'Бронировать', formValues }) =>
   <form onSubmit={handleSubmit(addReserv)}>
     <MuiDialogContent>
       <Column>
@@ -63,34 +63,22 @@ const AddPrimerka = ({ handleSubmit, initialItem, deleteHandler, addReserv, acti
                 margin="normal"
                 mask={ phoneMask }
               />
-              <Field
-                component={ renderField }
-                id={ DRESS_IDS }
-                name={ DRESS_IDS }
-                label="Номера платьев (через запятую)"
-                margin="normal"
-              />
             </Column>
             <Column>
               {
                 formValues[PRIMERKA_DATE] &&
                   <Primerka>
-                    <b>Дата примерки: </b> {dateFormatter(formValues[PRIMERKA_DATE])}
+                    <b>Дата примерки: </b> {dateFormatter(formValues[PRIMERKA_DATE].date)}
                   </Primerka>
               }
               <Field
-                component={ renderField }
-                id={ EVENT_DATE }
-                name={ EVENT_DATE }
-                label="Дата съемки/мероприятия"
+                component={ DressSizeSelector }
+                id={ DRESS_IDS }
+                name={ DRESS_IDS }
+                objValue={ initialItem[DRESS_IDS] }
+                label="Номера платьев"
                 margin="normal"
-                type="datetime-local"
-                defaultValue="2017-05-24T10:30"
-                InputLabelProps={{
-                  shrink: true,
-                }}
               />
-              
             </Column>
           </Row>
           <Row>
@@ -122,46 +110,59 @@ const AddPrimerka = ({ handleSubmit, initialItem, deleteHandler, addReserv, acti
                   margin="normal"
                   type="number"
                 />
-              <Primerka>
-                 <b>Осталось:</b> { formValues[PRISE] - formValues[PREPAID] }
-              </Primerka>
+                {
+                  formValues[PRISE] && formValues[PREPAID] &&
+                    <Primerka>
+                      <b>Осталось:</b> { formValues[PRISE] - formValues[PREPAID] }
+                    </Primerka>
+                }
 
             </Column>
           </Row>
           <Row>
             <Column>
               <Field
-                component={ renderField }
+                component={ DateTimeSelector }
                 id={ RESERV_DATE }
+                objValue={ initialItem.reservDate }
                 name={ RESERV_DATE }
-                label="Предполагаемая выдача"
-                margin="normal"
-                type="datetime-local"
+                label="Выдача"
                 InputLabelProps={{
                   shrink: true,
                 }} />
+
+              <Field
+                component={ DateTimeSelector }
+                id={ EVENT_DATE }
+                name={ EVENT_DATE }
+                objValue={ initialItem.eventDate }
+                label="Съемка/мероприятие"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
             </Column>
             <Column>
               { 
-                formValues[RESERV_DATE] &&
+                formValues[EVENT_DATE] &&
                   <StyledButton
                     color="secondary"
                     variant="contained"
                     component="a"
-                    href={`/vidachi?date=${dateFormatter(formValues[RESERV_DATE])}`}
+                    href={`/vidachi?date=${dateFormatter(formValues[EVENT_DATE].date)}${linedIds ? `&dressIds=${linedIds}` : ''}`}
                     rel="noopener noreferrer"
                     target="_blank">
-                      Посмотреть выдачи на {dateFormatter(formValues[RESERV_DATE])}
+                      Посмотреть брони на {dateFormatter(formValues[EVENT_DATE].date)}
                   </StyledButton>
               }
               
               <Field
-                component={ renderField }
+                component={ DateTimeSelector }
+                objValue={ initialItem.returnDate }
                 id={ RETURN_DATE }
                 name={ RETURN_DATE }
-                label="Предполагаемый возврат"
+                label="Возврат"
                 margin="normal"
-                type="datetime-local"
                 InputLabelProps={{
                   shrink: true,
                 }} />
@@ -204,7 +205,7 @@ const Primerka = styled(Typography)`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 300px;
 
   & + & {
     margin-left: 10px;

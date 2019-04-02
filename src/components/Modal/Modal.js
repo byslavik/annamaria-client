@@ -31,7 +31,7 @@ const DialogTitle = ({ onClose, children }) =>
 const Modal = ({ mobile, hideModal, title, show, Content }) =>
   <Dialog
     fullScreen={ mobile }
-    maxWidth="lg"
+    maxWidth="xl"
     onClose={hideModal}
     aria-labelledby="customized-dialog-title"
     open={show}

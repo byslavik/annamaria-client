@@ -16,7 +16,13 @@ const MONTHS = [
 const addZero = value => Number(value) >= 10 ? value : `0${value}`
 
 const dateFormatter = (date, skipTime = false) => {
-  const currentDate = new Date(date)
+  if(!date) {
+    return
+  }
+  const datetime = typeof date === 'string' ?
+    date :
+    Object.values(date).filter(Boolean).join('T')
+  const currentDate = new Date(datetime)
 
   const day = currentDate.getDate()
   const month = currentDate.getMonth()
@@ -25,7 +31,7 @@ const dateFormatter = (date, skipTime = false) => {
   const hours = currentDate.getHours()
   const mins = currentDate.getMinutes()
 
-  return `${day} ${MONTHS[month]} ${year}${!skipTime ? ` ${addZero(hours)}:${addZero(mins)}` : ''}`
+  return `${day} ${MONTHS[month]} ${year}${(skipTime || !date.time) ? '' : ` ${addZero(hours)}:${addZero(mins)}`}`
 }
 
 export default dateFormatter

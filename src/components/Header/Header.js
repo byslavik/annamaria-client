@@ -29,8 +29,16 @@ const menu = [
   }
 ]
 
+const StyledTab = styled(Tab)`
+ && {
+  font-weight: bold;
+   
+ }
+`
+
 const LinkTab = props =>
-  <Tab component={ Link } {...props} />;
+  <StyledTab component={ Link } {...props} />
+
 
 const MobileMenu = ({ toggleMenu, targetEl, isMobileMenuOpen = true, mobileMoreAnchorEl = null }) => (
   <Menu
@@ -51,10 +59,11 @@ const MobileMenu = ({ toggleMenu, targetEl, isMobileMenuOpen = true, mobileMoreA
   </Menu>
 );
 
+
 const Header = ({ isFetching, toggleMenu, isMobileMenuOpen, targetEl }) =>
   <Wrapper>
     { isFetching && <StyledProgress /> }
-    <AppBar position="static" color="default">
+    <StyledAppBAr position="static" color="default">
       <Toolbar>
         <Logo src={ LogoImg } />
         <StyledTypography variant="h6" color="inherit">
@@ -78,9 +87,14 @@ const Header = ({ isFetching, toggleMenu, isMobileMenuOpen, targetEl }) =>
           }
         </Media.Mobile>
       </Toolbar>
-    </AppBar>
+    </StyledAppBAr>
   </Wrapper>
 
+const StyledAppBAr = styled(AppBar)`
+  && {
+    background-color: #f5ccea;
+  }
+`
 
 const StyledTypography = styled(Typography)`
   flex-grow: 1;

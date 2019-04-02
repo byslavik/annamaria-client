@@ -16,7 +16,7 @@ import {
   EVENT_DATE,
   COMMENTS
 } from '../../constant'
-import { MaskedInput } from '../'
+import { MaskedInput, DateTimeSelector, DressSizeSelector } from '../'
 import Media from '../Media'
 
 const phoneMask = ['+', 3, 7, 5, ' ', '(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, ' ', '-', ' ', /\d/, /\d/, ' ', '-', ' ', /\d/, /\d/]
@@ -61,7 +61,7 @@ const renderCheckboxField = ({
   { ...props }
 />
 
-const AddPrimerka = ({ initialItem, deleteHandler, handleSubmit, addPrimerka, actionText = 'Добавить' }) =>
+const AddPrimerka = ({ initialItem = {}, deleteHandler, handleSubmit, addPrimerka, actionText = 'Добавить' }) => console.log(initialItem) ||
   <form onSubmit={handleSubmit(addPrimerka)}>
     <MuiDialogContent>
       <Column>
@@ -83,38 +83,15 @@ const AddPrimerka = ({ initialItem, deleteHandler, handleSubmit, addPrimerka, ac
                 mask={ phoneMask }
               />
               <Field
-                component={ renderField }
+                component={ DressSizeSelector }
                 id={ DRESS_IDS }
                 name={ DRESS_IDS }
-                label="Номера платьев (через запятую)"
+                objValue={ initialItem[DRESS_IDS] }
+                label="Номера платьев"
                 margin="normal"
               />
             </Column>
             <Column>
-              <Field
-                label="Дата примерки"
-                component={ renderField }
-                margin="normal"
-                id={ PRIMERKA_DATE }
-                name={ PRIMERKA_DATE }
-                type="datetime-local"
-                defaultValue="2017-05-24T10:30"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <Field
-                component={ renderField }
-                id={ EVENT_DATE }
-                name={ EVENT_DATE }
-                label="Дата съемки/мероприятия"
-                margin="normal"
-                type="datetime-local"
-                defaultValue="2017-05-24T10:30"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
               <Field
                 id={ IS_VIDACHA }
                 name={ IS_VIDACHA }
@@ -124,7 +101,30 @@ const AddPrimerka = ({ initialItem, deleteHandler, handleSubmit, addPrimerka, ac
               />
             </Column>
           </Row>
-
+          <Row>
+            <Column>
+              <Field
+                label="Примерка"
+                component={ DateTimeSelector }
+                margin="normal"
+                objValue={ initialItem.primerkaDate }
+                id={ PRIMERKA_DATE }
+                name={ PRIMERKA_DATE }
+              />
+            </Column>
+            <Column>
+              <Field
+                component={ DateTimeSelector }
+                id={ EVENT_DATE }
+                name={ EVENT_DATE }
+                objValue={ initialItem.eventDate }
+                label="Съемка/мероприятие"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Column>
+          </Row>
           <Field
             component={ renderField }
             id={ COMMENTS }
@@ -155,7 +155,7 @@ export default AddPrimerka
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 300px;
 
   & + & {
     margin-left: 10px;

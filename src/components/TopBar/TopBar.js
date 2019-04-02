@@ -5,7 +5,7 @@ import dateFormatter from '../../helpers/date-formatter'
 import Button from '@material-ui/core/Button';
 import { DateSelector, Media } from '../'
 
-const TopBar = ({ date, actionBtnText, describeText, action }) =>
+const TopBar = ({ date, children, describeText }) =>
   <Bar>
     <Media.Desktop>
       <DateSelector />
@@ -14,7 +14,7 @@ const TopBar = ({ date, actionBtnText, describeText, action }) =>
       </Typography>
       <ButtonWrapper>
         <Button color="secondary" onClick={ () => window.print() }>Печать</Button>
-        <Button onClick={ action } color="primary">{ actionBtnText }</Button>
+        { children }
       </ButtonWrapper>
     </Media.Desktop>
     <Media.Mobile>
@@ -22,7 +22,7 @@ const TopBar = ({ date, actionBtnText, describeText, action }) =>
         <DateSelector />  
         <ButtonWrapper>
           <Button color="secondary" onClick={ () => window.print() }>Печать</Button>
-          <Button onClick={ action } color="primary">{ actionBtnText }</Button>
+          { children }
         </ButtonWrapper>
       </Wrapper>
       <Typography variant="overline" gutterBottom>
@@ -38,6 +38,7 @@ const Bar = styled.div`
   padding: 10px 25px;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 3px solid #404fb9;
 
   ${Media.mobile`
     flex-direction: column;
@@ -46,10 +47,18 @@ const Bar = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+
+  ${Media.mobile`
+    flex-direction: column;
+  `}
 `
 
 const ButtonWrapper = styled.div`
   display: flex;
+
+  ${Media.mobile`
+    flex-direction: column;
+  `}
 
   @media print {
     display: none;

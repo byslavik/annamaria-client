@@ -45,3 +45,26 @@ export const delItem = id => dispatch =>
 
 export const loginHandler = (username, password) => request({ method: 'POST', body: { username, password }, url: 'signin' }).then(res => res.json())
 export const registerHandler = (username, password) => request({ method: 'POST', body: { username, password }, url: 'signup' }).then(res => res.json())
+
+export const getComment = params => request({ method: 'GET', url: 'comment', search: qs.stringify(params) }).then(res => res.json())
+
+export const addComment = item => dispatch => {
+  dispatch(setFetching(true))
+
+  return request({ method: 'POST', body: item, url: 'comment' })
+    .then(res => res.json())
+    .then(({ type, message }) => dispatch(addAlert({ type, message })))
+    .catch(({ message }) => dispatch(addAlert({ type: 'error', message: message || errMsg })))
+    .finally(() => dispatch(setFetching(false)))
+}
+
+
+export const updateComment = item => dispatch => {
+  dispatch(setFetching(true))
+
+  return request({ method: 'PATCH', body: item, url: 'comment' })
+    .then(res => res.json())
+    .then(({ type, message }) => dispatch(addAlert({ type, message })))
+    .catch(({ message }) => dispatch(addAlert({ type: 'error', message: message || errMsg })))
+    .finally(() => dispatch(setFetching(false)))
+}

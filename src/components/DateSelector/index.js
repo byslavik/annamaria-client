@@ -20,19 +20,23 @@ export default compose(
   connect(mapStateToProps, { changeDate, getItems }),
   withHandlers({
     onChange: ({ changeDate, getItems, currentPage, history }) => ({ target: { value }}) => {
-      changeDate(value)
-      getItems({ date: value, type: currentPage })
-      history.push(`?date=${value}`)
+      const formattedDate = dateFormatter(value)
+
+      changeDate(formattedDate)
+      getItems({ date: formattedDate, type: currentPage })
+      history.push(`?date=${formattedDate}`)
     }
   }),
   lifecycle({
     componentDidMount() {
       const { currentPage, changeDate } = this.props
       const { date } = qs.parse(window.location.search, { ignoreQueryPrefix: true })
-      const formattedDate = dateFormatter(date || Date.now())
- 
-      changeDate(formattedDate)
-      getItems({ date: formattedDate, type: currentPage })
+      if (date) {
+        const formattedDate = dateFormatter(date)
+    
+        changeDate(formattedDate)
+        getItems({ date: formattedDate, type: currentPage })
+      }
     }
   })
 )(DateSelector)

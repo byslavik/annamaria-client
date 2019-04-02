@@ -5,8 +5,6 @@ import { reduxForm, formValueSelector } from 'redux-form'
 import { addItem, updateItem, delItem } from '../../api'
 import validateFn from '../../helpers/form-validator'
 import prepareItem from '../../helpers/prepare-item'
-import getTime from '../../helpers/get-time'
-import dateFieldFormatter from '../../helpers/date-field-formatter'
 import {
   CLIENT_NAME,
   CLIENT_PHONE,
@@ -17,7 +15,8 @@ import {
   RESERV_DATE,
   EVENT_DATE,
   COMMENTS,
-  PRIMERKA_DATE
+  PRIMERKA_DATE,
+  RETURN_DATE
 } from '../../constant'
 import { hideModal } from '../Modal/actions'
 import updateItems from '../../hocs/withPageUpdate'
@@ -34,7 +33,8 @@ const FIELDS_TO_VALIDATE = [
   PREPAID,
   ZALOG,
   RESERV_DATE,
-  EVENT_DATE
+  EVENT_DATE,
+  RETURN_DATE
 ]
 
 const validate = validateFn(FIELDS_TO_VALIDATE)
@@ -49,21 +49,19 @@ const mapStateToProps = state => ({
     RESERV_DATE,
     EVENT_DATE,
     COMMENTS,
-    PRIMERKA_DATE
+    PRIMERKA_DATE,
+    RETURN_DATE
   )
 })
 
 export default compose(
   updateItems,
-  withProps(({ initialItem, initialItem: { reservDate, eventDate, dressIds } }) => ({
+  withProps(({ initialItem = {} }) => ({
     initialValues: {
-      [PREPAID]: 0,
-      [ZALOG]: 0,
-      [PRISE]: 0,
-      ...initialItem,
-      [RESERV_DATE]: reservDate && `${dateFieldFormatter(reservDate)}T${getTime(reservDate)}`,
-      [EVENT_DATE]: `${dateFieldFormatter(eventDate)}T${getTime(eventDate)}`,
-      [DRESS_IDS]: dressIds && dressIds.join(', ')
+      [PREPAID]: undefined,
+      [ZALOG]: undefined,
+      [PRISE]: undefined,
+      ...initialItem
     }
   })),
   reduxForm({
@@ -72,7 +70,7 @@ export default compose(
   }),
   connect(mapStateToProps, { addItem, hideModal, updateItem, delItem }),
   withHandlers({
-    deleteHandler: ({ delItem, hideModal, updateItemList, initialItem: { _id } }) => () =>
+    deleteHandler: ({ delItem, hideModal, updateItemList, initialItem: { _id } = {} }) => () =>
       delItem(_id)
         .then(hideModal)
         .then(updateItemList),
@@ -91,5 +89,12 @@ export default compose(
       }
 
     }
-  })
+  }),
+  withProps(({
+    formValues: {
+      dressIds
+    }
+  }) => ({
+    linedIds: dressIds && dressIds.length && dressIds.map(({ id }) => id).join(',')
+  }))
 )(AddReserv)

@@ -1,6 +1,7 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper';
 import { TopBar, Table } from '../../components'
+import { Button } from '@material-ui/core';
 
 const Primerki = ({
   openCreateModal,
@@ -9,11 +10,11 @@ const Primerki = ({
 }) =>
     <Paper>
       <TopBar
-        action={ openCreateModal }
         date={ date }
-        describeText="Показаны примерки на"
-        actionBtnText="Добавить примерку" />
-      <Table hightlightVidacha { ...props } />
+        describeText="Показаны примерки на">
+        <Button onClick={ openCreateModal } color="primary">Добавить примерку</Button>
+      </TopBar>
+      <Table hightlightVidacha openCreateModal={ openCreateModal } { ...props } />
     </Paper>
 
 

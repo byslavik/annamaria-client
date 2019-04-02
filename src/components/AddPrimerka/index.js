@@ -5,8 +5,6 @@ import { reduxForm, formValueSelector } from 'redux-form'
 import { addItem, updateItem, delItem } from '../../api'
 import validateFn from '../../helpers/form-validator'
 import prepareItem from '../../helpers/prepare-item'
-import getTime from '../../helpers/get-time'
-import dateFieldFormatter from '../../helpers/date-field-formatter'
 import {
   CLIENT_NAME,
   CLIENT_PHONE,
@@ -45,12 +43,9 @@ const mapStateToProps = state => ({
 
 export default compose(
   updateItems,
-  withProps(({ initialItem, initialItem: { primerkaDate, eventDate, dressIds } }) => ({
+  withProps(({ initialItem = {} }) => ({
     initialValues: {
-      ...initialItem,
-      [PRIMERKA_DATE]: `${dateFieldFormatter(primerkaDate)}T${getTime(primerkaDate)}`,
-      [EVENT_DATE]: `${dateFieldFormatter(eventDate)}T${getTime(eventDate)}`,
-      [DRESS_IDS]: dressIds && dressIds.join(', ')
+      ...initialItem
     }
   })),
   reduxForm({
@@ -59,7 +54,7 @@ export default compose(
   }),
   connect(mapStateToProps, { addItem, hideModal, updateItem, delItem }),
   withHandlers({
-    deleteHandler: ({ delItem, hideModal, updateItemList, initialItem: { _id } }) => () =>
+    deleteHandler: ({ delItem, hideModal, updateItemList, initialItem: { _id } = {} }) => () =>
       delItem(_id)
         .then(hideModal)
         .then(updateItemList),
