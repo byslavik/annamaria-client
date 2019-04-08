@@ -16,9 +16,13 @@ import {
   EVENT_DATE,
   COMMENTS,
   PRIMERKA_DATE,
-  RETURN_DATE
+  RETURN_DATE,
+  IS_RETURN_DONE,
+  IS_VIDACHA_DONE
 } from '../../constant'
 import { MaskedInput, DateTimeSelector, DressSizeSelector } from '..'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Media from '../Media'
 import { Typography } from '@material-ui/core';
 import dateFormatter from '../../helpers/date-field-formatter';
@@ -29,6 +33,30 @@ const StyledTextField = styled(TextField)`
   display: block;
 
 `
+
+
+const StyledFormControlLabel = styled(FormControlLabel)`
+  margin-top: 23px;
+`
+
+const CheckboxComponent = ({ label, ...props }) => <StyledFormControlLabel
+  control={
+    <Checkbox checked={ props.value } { ...props } />
+  }
+  label={ label }
+/>
+
+const renderCheckboxField = ({
+  input,
+  label,
+  meta: { error },
+  ...props
+}) => <CheckboxComponent
+  label={ Boolean(error) ? error : label }
+  error={ Boolean(error) }
+  { ...input }
+  { ...props }
+/>
 
 const renderField = ({
   input,
@@ -117,6 +145,27 @@ const AddPrimerka = ({ linedIds, handleSubmit, initialItem = {}, deleteHandler, 
                     </Primerka>
                 }
 
+            </Column>
+          </Row>
+        <Row>
+          <Column>
+              <Field
+                id={ IS_VIDACHA_DONE }
+                name={ IS_VIDACHA_DONE }
+                component={ renderCheckboxField }
+                label="Выдано"
+                margin="normal"
+              />
+            </Column>
+
+          <Column>
+              <Field
+                id={ IS_RETURN_DONE }
+                name={ IS_RETURN_DONE }
+                component={ renderCheckboxField }
+                label="Возвращено"
+                margin="normal"
+              />
             </Column>
           </Row>
           <Row>

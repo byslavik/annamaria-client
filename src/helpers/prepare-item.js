@@ -4,12 +4,11 @@ import {
   RESERV
 } from '../constant'
 
-const prepareItem = (formValues, isPrimerka = true) => {
+const prepareItem = formValues => {
   console.log(formValues)
   const values = {
     ...formValues,
-    placeholder: false,
-    [TYPE]: isPrimerka ? PRIMERKA : RESERV,
+    placeholder: false
   }
 
   return values

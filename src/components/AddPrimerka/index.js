@@ -45,7 +45,8 @@ export default compose(
   updateItems,
   withProps(({ initialItem = {} }) => ({
     initialValues: {
-      ...initialItem
+      ...initialItem,
+      isPrimerkaDone: false
     }
   })),
   reduxForm({
@@ -61,12 +62,12 @@ export default compose(
     addPrimerka: ({ formValues, update, updateItemList, addItem, updateItem, valid, hideModal, initialItem }) => () => {
       if(valid) {
         (
-          initialItem && update ?
+          initialItem ?
             updateItem({
               ...initialItem,
               ...prepareItem(formValues)
             }) : 
-            addItem(prepareItem(formValues))
+            addItem(prepareItem(formValues, true))
         )
           .then(hideModal)
           .then(updateItemList)

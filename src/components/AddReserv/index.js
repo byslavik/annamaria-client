@@ -16,7 +16,9 @@ import {
   EVENT_DATE,
   COMMENTS,
   PRIMERKA_DATE,
-  RETURN_DATE
+  RETURN_DATE,
+  IS_RETURN_DONE,
+  IS_VIDACHA_DONE
 } from '../../constant'
 import { hideModal } from '../Modal/actions'
 import updateItems from '../../hocs/withPageUpdate'
@@ -50,7 +52,9 @@ const mapStateToProps = state => ({
     EVENT_DATE,
     COMMENTS,
     PRIMERKA_DATE,
-    RETURN_DATE
+    RETURN_DATE,
+    IS_RETURN_DONE,
+    IS_VIDACHA_DONE
   )
 })
 
@@ -77,12 +81,12 @@ export default compose(
     addReserv: ({ formValues, update, updateItemList, addItem, updateItem, valid, hideModal, initialItem }) => () => {
       if(valid) {
         (
-          initialItem && update ?
+          initialItem ?
             updateItem({
               ...initialItem,
-              ...prepareItem(formValues, false)
+              ...prepareItem(formValues)
             }) : 
-            addItem(prepareItem(formValues, false))
+            addItem(prepareItem(formValues))
         )
           .then(hideModal)
           .then(updateItemList)

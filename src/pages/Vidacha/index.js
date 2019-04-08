@@ -11,6 +11,7 @@ import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
 import { ClientPhone, DressList, PriceHolder } from '../../components/common'
+import { CallMade, CallReceived } from '@material-ui/icons'
 
 const mapStateToProps = ({
   date,
@@ -23,6 +24,14 @@ const columns = [
   {
     label: 'Время',
     renderFn: ({ eventDate: { time } = {} }) => time
+  },
+  {
+    label: ' ',
+    renderFn: ({ isReturnDone, isVidachaDone }) =>
+      <div style={ { display: 'flex' } } >
+      { isVidachaDone && <CallMade title="Примерка прошла"  /> }
+      { isReturnDone && <CallReceived title="С выдачей"/> }
+      </div>
   },
   {
     label: 'Клиент',
@@ -81,8 +90,8 @@ export default compose(
           date,
           time: value
         },
+        isPrimerkaDone: true,
         placeholder: true,
-        type: currentPage
       }).then(updateItemList)
   
       return ({

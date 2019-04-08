@@ -19,7 +19,8 @@ const DetailsModalContent = ({
   isVidacha,
   comments,
   editItem,
-  reservItem
+  reservItem,
+  isPrimerkaDone
 }) =>
   <MuiDialogContent>
     <Column>
@@ -55,9 +56,16 @@ const DetailsModalContent = ({
             </Column>
         }
         <MuiDialogActions>
-          <Button onClick={ reservItem } type="button" color="secondary">
-            Бронировать
-          </Button>
+          { 
+            isPrimerkaDone ?
+              <p>Примерка прошла</p> :
+              <>
+                <Button onClick={ reservItem } type="button" color="secondary">
+                  Бронировать
+                </Button>
+              </>
+          }
+
           <Button onClick={ editItem } type="button" color="primary">
             Редактировать
           </Button>

@@ -20,7 +20,9 @@ const DetailsModalContent = ({
   zalog,
   comments,
   editItem,
-  returnDate
+  returnDate,
+  isVidachaDone,
+  isReturnDone
 }) =>
   <MuiDialogContent>
     <Column>
@@ -64,6 +66,14 @@ const DetailsModalContent = ({
             <Row>
               <BoldText>Залог: </BoldText>
               <Typography>{ zalog }</Typography>
+            </Row>
+            <Row>
+              <BoldText>Выдано: </BoldText>
+              <Typography>{ isVidachaDone ? 'Да' : 'Нет' }</Typography>
+            </Row>
+            <Row>
+              <BoldText>Возвращено: </BoldText>
+              <Typography>{ isReturnDone ? 'Да' : 'Нет' }</Typography>
             </Row>
           </Column>
         </Row>

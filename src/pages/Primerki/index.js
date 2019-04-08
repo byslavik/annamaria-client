@@ -10,6 +10,8 @@ import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
 import { ClientPhone, DressList } from '../../components/common'
+import Check from '@material-ui/icons/Check';
+import IsVidachaIcon from '@material-ui/icons/Today';
 
 const mapStateToProps = ({
   date,
@@ -68,6 +70,14 @@ export default compose(
       {
         label: 'Время',
         renderFn: ({ primerkaDate: { time } = {} }) => time
+      },
+      {
+        label: ' ',
+        renderFn: ({ isPrimerkaDone, isVidacha }) =>
+          <div style={ { display: 'flex' } } >
+          { isPrimerkaDone && <Check title="Примерка прошла"  /> }
+          { isVidacha && <IsVidachaIcon title="С выдачей"/> }
+          </div>
       },
       {
         label: 'Клиент',
