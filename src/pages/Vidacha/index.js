@@ -26,14 +26,6 @@ const columns = [
     renderFn: ({ eventDate: { time } = {} }) => time
   },
   {
-    label: ' ',
-    renderFn: ({ isReturnDone, isVidachaDone }) =>
-      <div style={ { display: 'flex' } } >
-      { isVidachaDone && <CallMade title="Примерка прошла"  /> }
-      { isReturnDone && <CallReceived title="С выдачей"/> }
-      </div>
-  },
-  {
     label: 'Клиент',
     renderFn: item =>
       <>

@@ -8,6 +8,7 @@ import Chip from '@material-ui/core/Chip';
 import dateFormatter from '../../helpers/date-formatter'
 import { DressList, PriceHolder } from '../../components/common'
 import { Media } from '../../components'
+import { CallMade, CallReceived } from '@material-ui/icons'
 
 const PlanItem = ({
   clientName,
@@ -22,13 +23,21 @@ const PlanItem = ({
   prepaid,
   zalog,
   comments,
-  isVidacha
+  isPrimerkaDone,
+  isVidacha,
+  isVidachaDone,
+  isReturnDone
 }) =>
   <StyledPaper elevation={1}>
     <Heading variant="h5" component="h3">
       { clientName }
-      <StyledIconButton onClick={ type === 1 ? openDetailsReservModal : openDetailsModal }>
-        <InfoIcon />
+      <StyledIconButton>
+
+        { isVidachaDone && <CallMade title="Примерка прошла"  /> }
+        { isReturnDone && <CallReceived title="С выдачей"/> }
+        <IconButton onClick={ isPrimerkaDone ? openDetailsReservModal : openDetailsModal }>
+          <InfoIcon />
+        </IconButton>
       </StyledIconButton>
     </Heading>
     <StyledTypo component="p">
@@ -109,8 +118,9 @@ const Heading = styled(Typography)`
   }
 `
 
-const StyledIconButton = styled(IconButton)`
+const StyledIconButton = styled.div`
   && {
+    display: flex;
     position: absolute;
     right: 0;
     top: 0;

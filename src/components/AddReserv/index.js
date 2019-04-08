@@ -86,7 +86,10 @@ export default compose(
               ...initialItem,
               ...prepareItem(formValues)
             }) : 
-            addItem(prepareItem(formValues))
+            addItem({
+              isPrimerkaDone: true,
+              ...prepareItem(formValues)
+            })
         )
           .then(hideModal)
           .then(updateItemList)
