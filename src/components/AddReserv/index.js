@@ -84,7 +84,8 @@ export default compose(
           initialItem && initialItem._id ?
             updateItem({
               ...initialItem,
-              ...prepareItem(formValues)
+              ...prepareItem(formValues),
+              isPrimerkaDone: true,
             }) : 
             addItem({
               isPrimerkaDone: true,
