@@ -81,7 +81,7 @@ export default compose(
     addReserv: ({ formValues, update, updateItemList, addItem, updateItem, valid, hideModal, initialItem }) => () => {
       if(valid) {
         (
-          initialItem ?
+          initialItem && initialItem._id ?
             updateItem({
               ...initialItem,
               ...prepareItem(formValues)
