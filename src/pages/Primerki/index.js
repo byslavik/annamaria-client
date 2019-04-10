@@ -5,7 +5,7 @@ import { compose, withProps, withHandlers, lifecycle, withStateHandlers } from '
 import { show } from 'redux-modal'
 import { MODAL, PRIMERKA } from '../../constant'
 import { AddPrimerka, DetailsModalContent } from '../../components'
-import { setCurrentPage, getItems, dropDressList } from '../../actions' 
+import { setCurrentPage, getItems, dropDressList, updateDressList } from '../../actions' 
 import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
@@ -21,7 +21,7 @@ const mapStateToProps = ({
 
 export default compose(
   updateItems,
-  connect(mapStateToProps, { show, setCurrentPage, getItems, addItem, dropDressList }),
+  connect(mapStateToProps, { show, setCurrentPage, getItems, addItem, dropDressList, updateDressList }),
   withStateHandlers({
     enableRow: false,
     timeValue: ''
@@ -102,10 +102,16 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      const { setCurrentPage, getItems, date, dropDressList } = this.props
+      const { setCurrentPage, getItems, date } = this.props
       setCurrentPage(PRIMERKA)
       getItems({ type: PRIMERKA, date })
-      dropDressList()
+    },
+    componentDidUpdate({ items: prevItems }) {
+      if (this.props.items.length !== prevItems.length) {
+        const dressIds = this.props.items.reduce((acc, item) => [...acc, ...item.dressIds], [])
+        this.props.dropDressList()
+        this.props.updateDressList(dressIds)
+      }
     }
   })
 )(Primerki)

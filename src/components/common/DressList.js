@@ -1,8 +1,7 @@
 import React from 'react'
-import { compose, lifecycle } from 'recompose'
+import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
-import { updateDressList, dropDressList } from '../../actions'
 
 const DressList = ({ items, searchIds = [], highlisghtYellow, dressList }) => items
   .map(({id, size}, index) =>
@@ -11,15 +10,7 @@ const DressList = ({ items, searchIds = [], highlisghtYellow, dressList }) => it
 const mapStateToProps = ({ app: { dressList }}) => ({ dressList })
 
 export default compose(
-  connect(mapStateToProps, { updateDressList, dropDressList }),
-  lifecycle({
-    componentDidMount() {
-      this.props.updateDressList(this.props.items)
-    },
-    componentWillUnMount() {
-      this.props.dropDressList()
-    }
-  })
+  connect(mapStateToProps)
 )(DressList)
 
 const Item = styled.span`

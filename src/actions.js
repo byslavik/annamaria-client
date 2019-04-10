@@ -9,8 +9,7 @@ export const dropDressList = createAction('APP/DROP_DRESSLIST')
 
 export const getItems = ({ date, type }) => dispatch => {
   dispatch(setFetching(true))
-  dispatch(dropDressList())
-  getAllItems({ date, type })
+  return getAllItems({ date, type })
     .then(items => dispatch(updateItemList(items)))
     .finally(() => dispatch(setFetching(false)))
 }

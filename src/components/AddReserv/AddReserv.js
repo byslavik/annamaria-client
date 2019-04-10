@@ -139,7 +139,9 @@ const AddPrimerka = ({ linedIds, handleSubmit, initialItem = {}, deleteHandler, 
                   type="number"
                 />
                 {
-                  formValues[PRISE] && formValues[PREPAID] &&
+                  formValues[PRISE] &&
+                  formValues[PREPAID] &&
+                  formValues[PRISE] >= formValues[PREPAID] &&
                     <Primerka>
                       <b>Осталось:</b> { formValues[PRISE] - formValues[PREPAID] }
                     </Primerka>

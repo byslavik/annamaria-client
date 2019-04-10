@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import CommentIcon from '@material-ui/icons/Comment';
 import CloseIcon from '@material-ui/icons/Close';
-import { TextField, IconButton } from '@material-ui/core';
+import { TextField, IconButton, Button } from '@material-ui/core';
 import dateFormatter from '../../helpers/date-formatter';
 import Media from '../Media';
 
@@ -16,12 +16,23 @@ const CommentWindow = ({
   toggle
 }) =>
   <Wrapper>
-    <StyledButton onClick={ toggle }>
-      { isVisible ? <CloseIcon /> : <CommentIcon color={ comment ? 'primary' : 'default' } /> }
-    </StyledButton>
+      <Media.Desktop>
+        <StyledButton onClick={ toggle }>
+          { isVisible ? <CloseIcon /> : <CommentIcon color={ comment ? 'primary' : 'default' } /> }
+        </StyledButton>
+      </Media.Desktop>
+      <Media.Mobile>
+        <Button onClick={ toggle } color="primary">Заметки</Button>
+      </Media.Mobile>
     {
       isVisible &&
         <TextFieldWrapper>
+          <Media.Mobile>
+            <StyledButton onClick={ toggle }>
+              <CloseIcon />
+            </StyledButton>
+          </Media.Mobile>
+
           <StyledTextField
             rows="20"
             placeholder={`Заметки на ${dateFormatter(date)}`}
@@ -45,10 +56,11 @@ const Wrapper = styled.div`
   right: 20px; */
   z-index: 100;
 
-  /* ${Media.mobile`
-    top: 70px;
-    right: 15px;
-  `} */
+  ${Media.mobile`
+    position: static;
+    width: 100%;
+    text-align: center;
+  `}
   @media print {
     display: none;
   }
@@ -62,6 +74,12 @@ const StyledTextField = styled(TextField)`
 const StyledButton = styled(IconButton)`
   position: relative;
   z-index: 10;
+
+  ${Media.mobile`
+    position: absolute !important;
+    right: 5px;
+    top: 5px;
+  `}
 `
 
 const TextFieldWrapper = styled.div`
@@ -72,4 +90,10 @@ const TextFieldWrapper = styled.div`
   position: absolute !important;
   top: -3px;
   right: 0;
+
+  ${Media.mobile`
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  `}
 `

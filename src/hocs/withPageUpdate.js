@@ -1,6 +1,6 @@
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import { getItems, dropDressList } from '../actions'
+import { getItems } from '../actions'
 
 const mapStateToProps = ({
   date,
@@ -10,11 +10,10 @@ const mapStateToProps = ({
 }) => ({ date, currentPage })
 
 export default compose(
-  connect(mapStateToProps, { getItems, dropDressList }),
+  connect(mapStateToProps, { getItems }),
   withHandlers({
-    updateItemList: ({ date, getItems, currentPage, dropDressList }) => () => {
+    updateItemList: ({ date, getItems, currentPage }) => () => {
       getItems({ date, type: currentPage })
-      dropDressList()
     }
   })
 )
