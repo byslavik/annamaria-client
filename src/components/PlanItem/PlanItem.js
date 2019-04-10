@@ -109,7 +109,7 @@ const StyledPaper = styled(Paper)`
   @media print {
     display: block;
     float: left !important;
-    width: 28%;
+    width: 27%;
     margin: 0;
   }
 `
