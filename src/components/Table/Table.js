@@ -105,7 +105,28 @@ const TableComponent = ({
           }
           </StyledRow>
       ))}
-      
+        {
+          enableRow &&
+            <StyledRow key='extra-row'>
+              <StyledCell colSpan={columns.length} align="left">
+                <TextField
+                  id="time"
+                  name="time"
+                  type="time"
+                  value={ timeValue }
+                  onChange={ onTimeFieldChage }
+                  onBlur={ onTimeFieldBlur }
+                />
+              </StyledCell>
+            </StyledRow>
+        }
+        <StyledRow key='last-row' onDoubleClick={ dblClkHanlder }>
+          <StyledCell component="th" scope="row" />
+          <StyledCell align="right" />
+          <StyledCell align="right" />
+          <StyledCell align="right" />
+          <StyledCell align="right" />
+        </StyledRow>
       </Table>
   </Media.Mobile>
 </>

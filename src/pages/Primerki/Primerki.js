@@ -14,7 +14,7 @@ const Primerki = ({
         describeText="Показаны примерки на">
         <Button onClick={ openCreateModal } color="primary">Добавить примерку</Button>
       </TopBar>
-      <Table hightlightVidacha openCreateModal={ openCreateModal } { ...props } />
+      <Table mobileCols={ 4 } hightlightVidacha openCreateModal={ openCreateModal } { ...props } />
     </Paper>
 
 

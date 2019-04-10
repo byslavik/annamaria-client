@@ -29,6 +29,12 @@ const menu = [
   }
 ]
 
+const getLabel = () => {
+  const currentPageIndex = menu.findIndex(({ to }) => window.location.pathname === to)
+  
+  return menu[currentPageIndex] && menu[currentPageIndex].label
+}
+
 const StyledTab = styled(Tab)`
  && {
   font-weight: bold;
@@ -77,7 +83,7 @@ const Header = ({ isFetching, toggleMenu, isMobileMenuOpen, targetEl }) =>
           </StyledTabs>
         </Media.Desktop>
         <Media.Mobile>
-          <Tab component="span" label={ menu[menu.findIndex(({ to }) => window.location.pathname === to)].label } />
+          <Tab component="span" label={ getLabel() } />
           <IconButton color="inherit" onClick={ toggleMenu } aria-label="Open drawer">
             <MenuIcon />
           </IconButton>

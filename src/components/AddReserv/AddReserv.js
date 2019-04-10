@@ -194,6 +194,7 @@ const AddPrimerka = ({ linedIds, handleSubmit, initialItem = {}, deleteHandler, 
             <Column>
               { 
                 formValues[EVENT_DATE] &&
+                formValues[EVENT_DATE].date &&
                   <StyledButton
                     color="secondary"
                     variant="contained"

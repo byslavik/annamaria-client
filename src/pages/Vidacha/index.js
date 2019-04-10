@@ -6,7 +6,7 @@ import { compose, withProps, withHandlers, lifecycle, withStateHandlers } from '
 import { show } from 'redux-modal'
 import { MODAL, RESERV } from '../../constant'
 import { AddReserv, DetailsReservContent } from '../../components'
-import { setCurrentPage, getItems } from '../../actions' 
+import { setCurrentPage, getItems, dropDressList } from '../../actions' 
 import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
@@ -40,7 +40,7 @@ const columns = [
       const { dressIds: searchDressIds } = qs.parse(window.location.search, { ignoreQueryPrefix: true })
       const searchIds = searchDressIds ? searchDressIds.split(',') : []
 
-      return <DressList searchIds={ searchIds } items={ dressIds } />
+      return <DressList highlisghtYellow searchIds={ searchIds } items={ dressIds } />
     } 
   },
   {
@@ -65,7 +65,7 @@ const columns = [
 
 export default compose(
   updateItems,
-  connect(mapStateToProps, { show, setCurrentPage, getItems, addItem }),
+  connect(mapStateToProps, { show, setCurrentPage, getItems, addItem, dropDressList }),
   withStateHandlers({
     enableRow: false,
     timeValue: ''
@@ -113,10 +113,11 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      const { setCurrentPage, getItems, date } = this.props
+      const { setCurrentPage, getItems, date, dropDressList } = this.props
 
       setCurrentPage(RESERV)
       getItems({ type: RESERV, date })
+      dropDressList()
     }
   })
 )(Vidacha)

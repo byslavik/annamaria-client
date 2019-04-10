@@ -44,4 +44,8 @@ const ItemsWrapper = styled.div`
   ${Media.mobile`
     width: 100%;
   `}
+
+  @media print {
+    display: block;
+  }
 `

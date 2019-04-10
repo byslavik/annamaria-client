@@ -36,7 +36,7 @@ const PlanItem = ({
         { isVidachaDone && <CallMade title="Примерка прошла"  /> }
         { isReturnDone && <CallReceived title="С выдачей"/> }
         <IconButton onClick={ isPrimerkaDone ? openDetailsReservModal : openDetailsModal }>
-          <InfoIcon />
+          <StyledInfoIcon />
         </IconButton>
       </StyledIconButton>
     </Heading>
@@ -44,9 +44,12 @@ const PlanItem = ({
       { clientPhone }
     </StyledTypo>
       { dressIds.length > 0 && <StyledTypo component="p"><DressList items={ dressIds } /></StyledTypo> }
-    <StyledTypo component="p">
-      Съемка: { dateFormatter(eventDate.date) } { eventDate.time }
-    </StyledTypo>
+    {
+      eventDate &&
+        <StyledTypo component="p">
+          Съемка: { dateFormatter(eventDate.date) } { eventDate.time }
+        </StyledTypo>
+    }
     {
       (prise || prepaid || zalog) &&
       <StyledTypo>
@@ -59,7 +62,7 @@ const PlanItem = ({
     }
     {
       type === 0 && isVidacha &&
-        <StyledTypo>  
+        <StyledTypo isVidacha>  
           <b>Возьмут</b>
         </StyledTypo>
     }
@@ -83,6 +86,12 @@ const StyledChip = styled(Chip)`
   }
 `
 
+const StyledInfoIcon = styled(InfoIcon)`
+  @media print {
+    display: none !important;
+  }
+`
+
 const StyledPaper = styled(Paper)`
   padding: 20px;
   min-width: 300px;
@@ -96,6 +105,13 @@ const StyledPaper = styled(Paper)`
     min-width: auto;
     min-width: auto;
   `}
+
+  @media print {
+    display: block;
+    float: left !important;
+    width: 28%;
+    margin: 0;
+  }
 `
 
 const StyledTypo = styled(Typography)`
@@ -104,6 +120,14 @@ const StyledTypo = styled(Typography)`
 
     ${props => props.italic && css`
       font-style: italic
+    `}
+
+    ${props => props.isVidacha && css`
+      background: rgba(245, 0, 87, 0.48);
+      display: inline-block;
+      padding: 3px;
+      border-radius: 1px;
+      text-align: center;
     `}
   }
 

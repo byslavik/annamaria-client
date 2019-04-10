@@ -49,7 +49,7 @@ const DetailsModalContent = ({
             </Row>
             <Row>
               <BoldText>Дата съемки/мероприятия: </BoldText>
-              <Typography>{ dateFormatter(eventDate) }</Typography>
+              <Typography>{ eventDate && eventDate.date  ? dateFormatter(eventDate) : 'не определено' }</Typography>
             </Row>
             <Row>
               <BoldText>Номера платьев: </BoldText>

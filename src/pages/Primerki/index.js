@@ -5,7 +5,7 @@ import { compose, withProps, withHandlers, lifecycle, withStateHandlers } from '
 import { show } from 'redux-modal'
 import { MODAL, PRIMERKA } from '../../constant'
 import { AddPrimerka, DetailsModalContent } from '../../components'
-import { setCurrentPage, getItems } from '../../actions' 
+import { setCurrentPage, getItems, dropDressList } from '../../actions' 
 import dateFormatter from '../../helpers/date-formatter'
 import updateItems from '../../hocs/withPageUpdate'
 import { addItem } from '../../api'
@@ -21,7 +21,7 @@ const mapStateToProps = ({
 
 export default compose(
   updateItems,
-  connect(mapStateToProps, { show, setCurrentPage, getItems, addItem }),
+  connect(mapStateToProps, { show, setCurrentPage, getItems, addItem, dropDressList }),
   withStateHandlers({
     enableRow: false,
     timeValue: ''
@@ -88,11 +88,11 @@ export default compose(
       },
       {
         label: 'Номера платьев',
-        renderFn: ({ dressIds }) => <DressList items={ dressIds } /> 
+        renderFn: ({ dressIds }) => <DressList highlisghtYellow items={ dressIds } /> 
       },
       {
         label: 'Дата мероприятия',
-        renderFn: ({ eventDate }) => dateFormatter(eventDate)
+        renderFn: ({ eventDate }) => eventDate && eventDate.date && dateFormatter(eventDate)
       },
       {
         label: 'Комментарии',
@@ -102,9 +102,10 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      const { setCurrentPage, getItems, date } = this.props
+      const { setCurrentPage, getItems, date, dropDressList } = this.props
       setCurrentPage(PRIMERKA)
       getItems({ type: PRIMERKA, date })
+      dropDressList()
     }
   })
 )(Primerki)
