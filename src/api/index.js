@@ -45,6 +45,7 @@ export const delItem = id => dispatch =>
     .catch(({ message }) => dispatch(addAlert({ type: 'error', message: message || errMsg })))
 
 export const loginHandler = (username, password) => request({ method: 'POST', body: { username, password }, url: 'signin' }).then(res => res.json())
+
 export const registerHandler = (username, password) => request({ method: 'POST', body: { username, password }, url: 'signup' }).then(res => res.json())
 
 export const getComment = params => request({ method: 'GET', url: 'comment', search: qs.stringify(params) }).then(res => res.json())

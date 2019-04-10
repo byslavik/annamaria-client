@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { TopBar, PlanItem, CommentWindow, Media } from '../../components'
+import { LoadingWrapper } from '../../components/common'
 import { Button, Typography } from '@material-ui/core';
 
 const Plan = ({
@@ -18,9 +19,11 @@ const Plan = ({
         <CommentWindow />
     </TopBar>
     <Wrapper>
-      <ItemsWrapper>
-      { items.map((item, index) => <PlanItem currentDate={ date } key={index} {...item} />) }
-      </ItemsWrapper>
+      <LoadingWrapper>
+        <ItemsWrapper>
+        { items.map((item, index) => <PlanItem currentDate={ date } key={index} {...item} />) }
+        </ItemsWrapper>
+      </LoadingWrapper>
     </Wrapper>
 
     { items.length === 0 &&
