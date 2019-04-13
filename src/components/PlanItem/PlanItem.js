@@ -8,7 +8,7 @@ import Chip from '@material-ui/core/Chip';
 import dateFormatter from '../../helpers/date-formatter'
 import { DressList, PriceHolder } from '../../components/common'
 import { Media } from '../../components'
-import { CallMade, CallReceived } from '@material-ui/icons'
+import { CallMade, CallReceived, Check } from '@material-ui/icons'
 
 const PlanItem = ({
   clientName,
@@ -32,7 +32,7 @@ const PlanItem = ({
     <Heading variant="h5" component="h3">
       { clientName }
       <StyledIconButton>
-
+        { isPrimerkaDone && <Check /> }
         { isVidachaDone && <CallMade title="Примерка прошла"  /> }
         { isReturnDone && <CallReceived title="С выдачей"/> }
         <IconButton onClick={ isPrimerkaDone ? openDetailsReservModal : openDetailsModal }>
