@@ -61,7 +61,7 @@ const PlanItem = ({
         <StyledTypo italic dangerouslySetInnerHTML={{ __html: comments }} />
     }
     {
-      type === 0 && isVidacha &&
+      isVidacha &&
         <StyledTypo isVidacha>  
           <b>Возьмут</b>
         </StyledTypo>
