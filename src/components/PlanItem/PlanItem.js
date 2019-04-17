@@ -32,7 +32,6 @@ const PlanItem = ({
     <Heading variant="h5" component="h3">
       { clientName }
       <StyledIconButton>
-        { isPrimerkaDone && <Check /> }
         { isVidachaDone && <CallMade title="Примерка прошла"  /> }
         { isReturnDone && <CallReceived title="С выдачей"/> }
         <IconButton onClick={ isPrimerkaDone ? openDetailsReservModal : openDetailsModal }>
