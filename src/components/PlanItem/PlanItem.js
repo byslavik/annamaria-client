@@ -8,7 +8,7 @@ import Chip from '@material-ui/core/Chip';
 import dateFormatter from '../../helpers/date-formatter'
 import { DressList, PriceHolder } from '../../components/common'
 import { Media } from '../../components'
-import { CallMade, CallReceived, Check } from '@material-ui/icons'
+import { CallMade, CallReceived } from '@material-ui/icons'
 
 const PlanItem = ({
   clientName,
@@ -60,7 +60,13 @@ const PlanItem = ({
         <StyledTypo italic dangerouslySetInnerHTML={{ __html: comments }} />
     }
     {
+      console.log(itemTypes)
+    }
+    {
       isVidacha &&
+      !isVidachaDone &&
+      !isReturnDone &&
+      !itemTypes.some(({ label }) => label === 'Возврат' || label === 'Выдача') &&
         <StyledTypo isVidacha>  
           <b>Возьмут</b>
         </StyledTypo>
