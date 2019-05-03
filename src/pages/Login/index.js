@@ -23,7 +23,7 @@ export default compose(
   })),
   withHandlers({
     handleLogin: ({ formValues: { username, password } }) => () => {
-      // console.log(formValues)
+
       loginHandler(username, password)
         .then(({ success, token, message }) => {
           if(success) {

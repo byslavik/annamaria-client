@@ -61,7 +61,7 @@ const renderCheckboxField = ({
   { ...props }
 />
 
-const AddPrimerka = ({ initialItem = {}, deleteHandler, handleSubmit, addPrimerka, actionText = 'Добавить' }) => console.log(initialItem) ||
+const AddPrimerka = ({ initialItem = {}, deleteHandler, handleSubmit, addPrimerka, actionText = 'Добавить' }) =>
   <form onSubmit={handleSubmit(addPrimerka)}>
     <MuiDialogContent>
       <Column>

@@ -37,12 +37,10 @@ export default compose(
       getComment({ date: dateFormatter(this.props.date) }).then(data => this.props.setComment(data[0] || ''))
     },
     componentDidUpdate({ date }) {
-      
-        console.log('set initial', this.props)
         if(this.props.date !== date) {
 
           this.props.setComment('')
-          getComment({ date: dateFormatter(this.props.date) }).then(data => console.log(data) || this.props.setComment(data[0] || ''))
+          getComment({ date: dateFormatter(this.props.date) }).then(data => this.props.setComment(data[0] || ''))
         }
       
     }

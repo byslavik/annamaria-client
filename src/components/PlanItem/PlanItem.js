@@ -60,9 +60,6 @@ const PlanItem = ({
         <StyledTypo italic dangerouslySetInnerHTML={{ __html: comments }} />
     }
     {
-      console.log(itemTypes)
-    }
-    {
       isVidacha &&
       !isVidachaDone &&
       !isReturnDone &&

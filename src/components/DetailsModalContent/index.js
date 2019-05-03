@@ -12,7 +12,7 @@ export default compose(
     editItem: ({ show, item }) => () =>
       show(MODAL, {
         title: 'Изменить данные о примерке',
-        Content: () => console.log(item) || <AddPrimerka update initialItem={ item } actionText="Обновить" />
+        Content: () => <AddPrimerka update initialItem={ item } actionText="Обновить" />
       }),
     reservItem: ({ show, item }) => () =>
       show(MODAL, {

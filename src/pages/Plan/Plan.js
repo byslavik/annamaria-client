@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TopBar, PlanItem, CommentWindow, Media } from '../../components'
+import { TopBar, PlanItem, Table, CommentWindow, Media } from '../../components'
 import { LoadingWrapper } from '../../components/common'
 import { Button, Typography } from '@material-ui/core';
 
@@ -8,7 +8,8 @@ const Plan = ({
   items,
   date,
   openCreateModal,
-  openCreateReservModal
+  openCreateReservModal,
+  ...props
 }) =>
   <>
     <TopBar
@@ -18,19 +19,24 @@ const Plan = ({
         <Button onClick={ openCreateReservModal } color="primary">Добавить бронь</Button>
         <CommentWindow />
     </TopBar>
-    <Wrapper>
+    <Media.Desktop>
+      <LoadingWrapper>
+        <Table mobileCols={ 4 } hightlightVidacha items={ items }  { ...props } openCreateModal={ () => {} } openDetailsModal={ () => {} } />
+      </LoadingWrapper>
+    </Media.Desktop>
+    {/* <Wrapper>
       <LoadingWrapper>
         <ItemsWrapper>
         { items.map((item, index) => <PlanItem currentDate={ date } key={index} {...item} />) }
         </ItemsWrapper>
       </LoadingWrapper>
-    </Wrapper>
+    </Wrapper> */}
 
-    { items.length === 0 &&
+    {/* { items.length === 0 &&
         <StyledTypography variant="overline" gutterBottom>
           Данных не найдено
         </StyledTypography>
-    }
+    } */}
   </>
   
 export default Plan

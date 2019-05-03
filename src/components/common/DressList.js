@@ -3,7 +3,7 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
-const DressList = ({ items, searchIds = [], highlisghtYellow, dressList }) => items
+const DressList = ({ items = [], searchIds = [], highlisghtYellow, dressList }) => items
   .map(({id, size}, index) =>
     <Item highlisghtYellow={ highlisghtYellow && dressList[id] > 1 } hightLight={ searchIds.includes(id) } key={index}>{id}{size && `, p-p ${size}`}; </Item>)
 
