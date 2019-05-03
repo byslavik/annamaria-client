@@ -24,19 +24,21 @@ const Plan = ({
         <Table mobileCols={ 4 } hightlightVidacha items={ items }  { ...props } openCreateModal={ () => {} } openDetailsModal={ () => {} } />
       </LoadingWrapper>
     </Media.Desktop>
-    {/* <Wrapper>
-      <LoadingWrapper>
-        <ItemsWrapper>
-        { items.map((item, index) => <PlanItem currentDate={ date } key={index} {...item} />) }
-        </ItemsWrapper>
-      </LoadingWrapper>
-    </Wrapper> */}
 
-    {/* { items.length === 0 &&
-        <StyledTypography variant="overline" gutterBottom>
-          Данных не найдено
-        </StyledTypography>
-    } */}
+    <Media.Mobile>
+      <Wrapper>
+        <LoadingWrapper>
+          <ItemsWrapper>
+          { items.map((item, index) => <PlanItem currentDate={ date } key={index} {...item} />) }
+          </ItemsWrapper>
+        </LoadingWrapper>
+      </Wrapper>
+      { items.length === 0 &&
+          <StyledTypography variant="overline" gutterBottom>
+            Данных не найдено
+          </StyledTypography>
+      }
+    </Media.Mobile>
   </>
   
 export default Plan
