@@ -6,8 +6,9 @@ import { compose, withProps, withHandlers, lifecycle } from 'recompose'
 import { show } from 'redux-modal'
 import { MODAL, PLAN, PRIMERKA_DATE, RESERV_DATE, RETURN_DATE, TYPE_MAP } from '../../constant'
 import { AddPrimerka, AddReserv, DetailsReservContent, DetailsModalContent } from '../../components'
-import { ClientPhone, DressList, StyledChip } from '../../components/common'
+import { ClientPhone, DressList, StyledChip, PriceHolder } from '../../components/common'
 import { setCurrentPage, getItems } from '../../actions' 
+import dateFormatter from '../../helpers/date-formatter'
 import IsVidachaIcon from '@material-ui/icons/Today';
 import { CallMade, CallReceived } from '@material-ui/icons'
 import InfoIcon from '@material-ui/icons/Info';
@@ -79,9 +80,17 @@ export default compose(
     }),
     // openDetailsModal: () => () => isPrimerkaDone ? openDetailsReservModal : openDetailsModal
   }),
-  withProps(({ items, date }) => ({
-    items: items
+  withProps(({ items, date }) => {
+    const itemsWithutPlaceholders = items
       .filter(({ placeholder }) => !placeholder)
+
+    const filteredItems = itemsWithutPlaceholders
+      .filter(item => {
+        const currentItemTypes = getItemTypes({ ...item, date })
+        const sortField = currentItemTypes[0]
+
+        return Boolean(item[sortField].time)
+      })
       .sort((item, nextItem) => {
         const currentItemTypes = getItemTypes({ ...item, date })
         const nextItemTypes = getItemTypes({ ...nextItem, date })
@@ -89,10 +98,6 @@ export default compose(
         const nextSortField = nextItemTypes[0]
         const curDateParsed = Date.parse(item[`${sortField}Str`])
         const nextDateParsed = Date.parse(nextItem[`${nextSortField}Str`])
-        
-        if (!item[sortField].time) {
-          return 1
-        }
 
         if( curDateParsed > nextDateParsed) {
           return 1
@@ -102,7 +107,17 @@ export default compose(
 
         return 0
       })
-  })),
+
+    const itemsWithoutTime = itemsWithutPlaceholders
+      .filter(item => {
+        const currentItemTypes = getItemTypes({ ...item, date })
+        const sortField = currentItemTypes[0]
+
+        return !item[sortField].time
+      })
+
+      return { items: [ ...filteredItems, ...itemsWithoutTime  ]}
+  }),
   withHandlers({
     openDetailsReservModal: ({ show }) => item => show(MODAL, {
       title: 'Детали брони',
@@ -118,15 +133,9 @@ export default compose(
   withProps(({ date, openDetailsReservModal, openDetailsModal }) => ({
     columns: [
       {
-        label: 'Время',
-        renderFn: ({ primerkaDate: { time } = {} }) => time
-      },
-
-      {
         label: ' ',
         renderFn: item =>
           <div style={ { display: 'flex' } } >
-
           <IconButton onClick={ item.isPrimerkaDone ? () => openDetailsReservModal(item) : () => openDetailsModal(item) }>
             <StyledInfoIcon />
           </IconButton>
@@ -140,6 +149,10 @@ export default compose(
           { item.isVidachaDone && <CallMade title="Примерка прошла"  /> }
           { item.isReturnDone && <CallReceived title="С выдачей"/> }
           </div>
+      },
+      {
+        label: 'Дата мероприятия',
+        renderFn: ({ eventDate }) => eventDate && eventDate.date && dateFormatter(eventDate)
       },
       {
         label: ' ',
@@ -163,6 +176,11 @@ export default compose(
       {
         label: 'Номера платьев',
         renderFn: ({ dressIds }) => <DressList highlisghtYellow items={ dressIds } /> 
+      },
+      {
+        label: 'Оплата',
+        renderFn: ({ prise, prepaid, zalog }) => (prise || prepaid || zalog) &&
+          <PriceHolder prise={ prise } prepaid={ prepaid } zalog={ zalog } />
       },
       {
         label: 'Комментарии',

@@ -41,11 +41,11 @@ const TableComponent = ({
               {
                 columns
                   .map(({ field, label, renderFn }) =>
-                    <TableCell align="left" key={`${item._id}-${label}`}>
+                    <CellNoPadding align="left" key={`${item._id}-${label}`}>
                       {
                         renderFn ? renderFn(item) : item[field]
                       }
-                    </TableCell>)
+                    </CellNoPadding>)
               }
               </StyledRow>
           ))}
@@ -122,10 +122,7 @@ const TableComponent = ({
         }
         <StyledRow key='last-row' onDoubleClick={ dblClkHanlder }>
           <StyledCell component="th" scope="row" />
-          <StyledCell align="right" />
-          <StyledCell align="right" />
-          <StyledCell align="right" />
-          <StyledCell align="right" />
+          
         </StyledRow>
       </Table>
   </Media.Mobile>
@@ -137,6 +134,13 @@ const StyledRow = styled(TableRow)`
   ${props => props.isPlaceholder && css`
      background-color: rgba(0, 245, 87, 0.08);
   `}
+`
+
+const CellNoPadding = styled(TableCell)`
+  && {
+    padding: 0;
+    padding-left: 24px;
+  }
 `
 
 const StyledCell = styled(TableCell)`
@@ -157,5 +161,7 @@ const HeadingCell = styled(TableCell)`
   && {
     font-size: 17px;
     font-weight: bold;
+    padding: 0;
+    padding-left: 24px;
   }
 `
