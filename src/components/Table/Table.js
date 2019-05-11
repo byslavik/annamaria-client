@@ -122,7 +122,10 @@ const TableComponent = ({
         }
         <StyledRow key='last-row' onDoubleClick={ dblClkHanlder }>
           <StyledCell component="th" scope="row" />
-          
+            <StyledCell align="right" />
+            <StyledCell align="right" />
+            <StyledCell align="right" />
+            <StyledCell align="right" />
         </StyledRow>
       </Table>
   </Media.Mobile>

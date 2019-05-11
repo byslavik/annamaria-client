@@ -88,8 +88,9 @@ export default compose(
       .filter(item => {
         const currentItemTypes = getItemTypes({ ...item, date })
         const sortField = currentItemTypes[0]
+        const field = item[sortField]
 
-        return Boolean(item[sortField].time)
+        return Boolean(field && field.time)
       })
       .sort((item, nextItem) => {
         const currentItemTypes = getItemTypes({ ...item, date })
@@ -112,8 +113,9 @@ export default compose(
       .filter(item => {
         const currentItemTypes = getItemTypes({ ...item, date })
         const sortField = currentItemTypes[0]
+        const field = item[sortField]
 
-        return !item[sortField].time
+        return field && !field.time
       })
 
       return { items: [ ...filteredItems, ...itemsWithoutTime  ]}
@@ -151,10 +153,6 @@ export default compose(
           </div>
       },
       {
-        label: 'Дата мероприятия',
-        renderFn: ({ eventDate }) => eventDate && eventDate.date && dateFormatter(eventDate)
-      },
-      {
         label: ' ',
         renderFn: (item) =>
           <div style={ { display: 'flex' } } >
@@ -176,6 +174,10 @@ export default compose(
       {
         label: 'Номера платьев',
         renderFn: ({ dressIds }) => <DressList highlisghtYellow items={ dressIds } /> 
+      },
+      {
+        label: 'Дата мероприятия',
+        renderFn: ({ eventDate }) => eventDate && eventDate.date && dateFormatter(eventDate)
       },
       {
         label: 'Оплата',
