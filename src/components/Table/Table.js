@@ -85,6 +85,7 @@ const TableComponent = ({
       </Table>
   </Media.Desktop>
   <Media.Mobile>
+    <MobileWrapper>
     <Table>
     
       {items.map(item => (
@@ -128,10 +129,15 @@ const TableComponent = ({
             <StyledCell align="right" />
         </StyledRow>
       </Table>
+      </MobileWrapper>
   </Media.Mobile>
 </>
 
 export default TableComponent
+
+const MobileWrapper = styled.div`
+  overflow-y: auto;
+`
 
 const StyledRow = styled(TableRow)`
   ${props => props.isPlaceholder && css`
